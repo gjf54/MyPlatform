@@ -17,7 +17,7 @@ DashBoard
     </div>
 </div>
 <div class="select_setting row">
-    @if($user->can('control_users'))
+    @if($user->can('control_user'))
     <div class="col-xl-3 col-md-6 col-sm-12 setting">
         <a href="{{ route('dashboard_users') }}"><span>Edit users</span></a>
     </div>

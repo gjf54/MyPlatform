@@ -52,6 +52,11 @@ class DashboardController extends Controller
 
     public function generate_edit_form_of_post($id) {
         $post = Post::where(['id' => $id])->first();
+
+        if($post == null) {
+            return abort(404);
+        }
+
         return view('dashboard.posts.post_form', [
             'post' => $post,
             'status' => 'edit',
@@ -78,6 +83,11 @@ class DashboardController extends Controller
 
     public function delete_writers_post($id) {
         $post = Post::where(['id' => $id])->first();
+
+        if($post == null) {
+            return abort(404);
+        }
+
         $post->delete();
         return back();
     }
@@ -96,11 +106,81 @@ class DashboardController extends Controller
         $managers = User::role('manager')->get();
         $writers = User::role('writer')->get();
 
+        $user = auth()->user();
+
         return view('dashboard.users.main_page', [
             'super_admins' => $super_admins,
             'admins' => $admins,
             'managers' => $managers,
             'writers' => $writers,
+            'user' => $user,
         ]);
+    }
+
+    public function remove_role_from_user($id, $role) {
+        $selected_user = User::where(['id' => $id,])->first();
+        $user = User::where(['id' => auth()->user()->id])->first();
+
+        if($selected_user->hasRole('super_admin')) {
+            return back()->withErrors([
+                'message' => 'You can not remove super-admin role!'
+            ]);
+        }
+
+        if($selected_user->can('control_user') and !($user->hasRole('super_admin'))) {
+            return back()->withErrors([
+                'message' => 'You can not remove other admin!'
+            ]);
+        }
+
+        $selected_user->removeRole($role);
+        $selected_user->save();
+
+        return back()->with([
+            'message' => 'User role success removed!'
+        ]);
+    }
+
+    public function generate_user_role_form($role) {
+        if($role == 'super_admin') {
+            abort(404);
+        }
+
+        return view('dashboard.users.add_role_to_user_form', [
+            'role' => $role,
+        ]);
+    }
+
+    public function get_all_logins() {
+        $logins = User::all()->pluck('login')->toArray();
+
+        return response()->json($logins);
+    }
+
+    public function get_user_role(Request $request, $role) {
+        $validator = Validator::make($request->all(), [
+            'login' => 'required',
+        ]);
+        $validator->validate();
+
+        $user = User::where(['login' => auth()->user()->login])->first();
+        $selected_user = User::where(['login' => $request->login])->first();
+
+        if($role == 'super_admin') {
+            return back()->withErrors([
+                'message' => 'You can not add super-admin!',
+            ]);
+        }
+
+        if($role == 'admin' and !($user->hasRole('super_admin'))) {
+            return back()->withErrors([
+                'message' => 'You can not add admin!',
+            ]);
+        }
+
+        $selected_user->assignRole($role);
+        $selected_user->save();
+
+        return back()->with('message', 'Roles successfull granted!');
     }
 }

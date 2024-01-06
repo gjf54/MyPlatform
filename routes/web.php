@@ -7,7 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EditProfileController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+use Spatie\Permission\Models\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,12 +62,12 @@ Route::group(['middleware' => 'auth'], function ($router) {
     });
 });
 
-Route::group(['middleware' => 'auth', 'prefix' => 'dashboard',], function () {
+Route::group(['middleware' => ['auth', 'role:admin|manager|super_admin|writer'], 'prefix' => 'dashboard',], function () {
     Route::get('/', [DashboardController::class, 'generate_home_page'])->name('dashboard');
     
     // Links to contorll posts. Min. access role: writer.
 
-    Route::group(['middleware' => 'role:admin|manager|super_admin|writer', 'prefix' => 'writers_posts',], function () {
+    Route::group(['prefix' => 'writers_posts',], function () {
         Route::get('/', [DashboardController::class, 'generate_writer_page'])->name('dashboard_writers_posts');
         Route::get('/post/{id}/edit', [DashboardController::class, 'generate_edit_form_of_post'])->name('dashboard_edit_post');
         Route::post('/post/{id}/edit', [DashboardController::class, 'edit_writers_post'])->name('dashboard_send_edit_post');
@@ -79,6 +79,10 @@ Route::group(['middleware' => 'auth', 'prefix' => 'dashboard',], function () {
     
     Route::group(['middleware' => 'role:admin|super_admin', 'prefix' => 'users'], function () {
         Route::get('/', [DashboardController::class, 'generate_users_page'])->name('dashboard_users');
+        Route::get('user/{id}/remove_role/{role}', [DashboardController::class, 'remove_role_from_user'])->name('dashboard_remove_user_role')->whereIn('role', Role::all()->pluck('name')->toArray());
+        Route::get('grant_role/{role}', [DashboardController::class, 'generate_user_role_form'])->name('dashboard_grant_role_to_user')->whereIn('role', Role::all()->pluck('name')->toArray());
+        Route::post('grant_role/{role}', [DashboardController::class, 'get_user_role'])->name('dashboard_set_role_to_user')->whereIn('role', Role::all()->pluck('name')->toArray());
+        Route::post('/get_all_logins', [DashboardController::class, 'get_all_logins'])->name('get_all_logins');
     });
 });
 
