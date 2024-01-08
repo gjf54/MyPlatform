@@ -14,7 +14,7 @@ Profile
         <div class="grey"></div>
         <div class="header_content">
                 <div class="main">
-                        <img src="{{ asset('imgs/avatars/main3.jpeg') }}" alt="avatar">
+                        <img src="{{ asset('storage/imgs/users_avatars/main.jpg') }}" alt="avatar">
                         <div class="text">        
                                 <span role="nameSurname">{{ $user->name }} {{ $user->surname }}</span>
                                 <span role="login"> <?php echo '@'.$user->login ?></span>

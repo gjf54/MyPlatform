@@ -6,8 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Cache\Store;
+use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Filesystem\FilesystemAdapter;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -47,8 +52,10 @@ class AuthController extends Controller
     }
 
     public function profile() {
-        return view('profile', [
+
+        return view('profile', [    
             'user' => auth()->user(),
+            'avatar' => 'main.jpg',
         ]);
     }
 

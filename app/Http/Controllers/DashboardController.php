@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 
@@ -146,6 +148,14 @@ class DashboardController extends Controller
             abort(404);
         }
 
+        $user = User::where(['login' => auth()->user()->login])->first();
+
+        if($user->hasRole('admin') and !($user->hasRole('super_admin')) and $role == 'admin') {
+            return back()->withErrors([
+                'message' => 'You can not add admins!',
+            ]);
+        }
+
         return view('dashboard.users.add_role_to_user_form', [
             'role' => $role,
         ]);
@@ -166,6 +176,12 @@ class DashboardController extends Controller
         $user = User::where(['login' => auth()->user()->login])->first();
         $selected_user = User::where(['login' => $request->login])->first();
 
+        if($selected_user == null) {
+            return back()->withErrors([
+                'message' => 'User does not exist!',
+            ]);
+        }
+
         if($role == 'super_admin') {
             return back()->withErrors([
                 'message' => 'You can not add super-admin!',
@@ -181,6 +197,81 @@ class DashboardController extends Controller
         $selected_user->assignRole($role);
         $selected_user->save();
 
-        return back()->with('message', 'Roles successfull granted!');
+        return back()->with('message', 'Role successfull granted!');
+    }
+
+    public function generate_catalog_home_page() {
+        $categories = Category::all();
+
+        $max_lenght = 20;
+        foreach ($categories as $category) {
+            $name = $category->name;
+            if(mb_strlen($name) > $max_lenght) {
+                $name = mb_substr($name, 0, $max_lenght - 3) . '...';
+                $category->name = $name;
+            }
+        }
+
+        return view('dashboard.catalog.categories_list', [
+            'categories' => $categories,
+        ]);
+    }
+
+    public function generate_categories_create_form() {
+        return view('dashboard.catalog.category_form', [
+            'status' => 'create',
+        ]);
+    }
+
+    public function insert_created_category(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|unique:categories',
+        ]);
+        $validator->validate();
+
+        Category::create($validator->validated());
+
+        return back()->with('message', 'Category successfull created!');
+    }
+
+    public function generate_categories_edit_form($id) {
+        $category = Category::where(['id' => $id])->first();
+
+        return view('dashboard.catalog.category_form', [
+            'category' => $category,
+            'status' => 'edit',
+        ]);
+    }
+
+    public function insert_edited_category($id, Request $request) {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+        ]);
+        $validator->validate();
+
+        $category = Category::where(['id' => $id])->first();
+        
+        $category->name = $request->name;
+        $category->save();
+
+        return back()->with('message', 'Category successfull updated!');
+    }
+
+    public function generate_category_contains($id) {
+        $category = Category::where(['id' => $id])->first();
+    
+        $products = Product::where(['id_parent_category' => $category->id])->get();
+        
+        return view('dashboard.catalog.products_list', [
+            'products' => $products,
+            'category' => $category,
+        ]);
+    }
+
+    public function delete_category($id) {
+        $category = Category::where(['id' => $id])->first();
+        $category->delete();
+
+        return back()->with('message', 'Category successfull deleted!');
     }
 }

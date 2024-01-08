@@ -25,7 +25,7 @@ DashBoard
 
     @if($user->can('edit_catalog'))
     <div class="col-xl-3 col-md-6 col-sm-12 setting">
-        <a href="#"><span>Edit catalog</span></a>
+        <a href="{{ route('dashboard_catalog') }}"><span>Edit catalog</span></a>
     </div>
     @endif 
 

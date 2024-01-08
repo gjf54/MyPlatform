@@ -26,13 +26,6 @@ Users
 @endif
 
 <div class="users_list">
-    @if($errors->any())
-        <div class="alert alert-danger">
-            @foreach($errors->all() as $error)
-                {{ $error }}
-            @endforeach
-        </div>
-    @endif
     <div class="users_group">
         <div class="header_field">
             <span role="group_title">Super-admin</span>
@@ -48,7 +41,11 @@ Users
     <div class="users_group">
         <div class="header_field">
             <span role="group_title">Admins</span>
-            <a href="{{ route('dashboard_grant_role_to_user', ['role' => 'admin']) }}" class="btn btn-primary">Add</a>
+            @if($user->hasRole('admin') and !($user->hasRole('super_admin')))
+                <a href="{{ route('dashboard_grant_role_to_user', ['role' => 'admin']) }}" class="btn btn-primary disabled" role="button" aria-disabled="true">Add</a>
+            @else
+            <a href="{{ route('dashboard_grant_role_to_user', ['role' => 'admin']) }}" class="btn btn-primary" role="button">Add</a>
+            @endif
         </div>
         @foreach($admins as $admin)
             <div class="user_field">

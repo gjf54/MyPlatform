@@ -6,7 +6,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EditProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use Spatie\Permission\Models\Role;
 
 /*
@@ -62,10 +64,12 @@ Route::group(['middleware' => 'auth'], function ($router) {
     });
 });
 
+// Dashboard
+
 Route::group(['middleware' => ['auth', 'role:admin|manager|super_admin|writer'], 'prefix' => 'dashboard',], function () {
     Route::get('/', [DashboardController::class, 'generate_home_page'])->name('dashboard');
     
-    // Links to contorll posts. Min. access role: writer.
+    // Routes to contorll posts. Minimum-access role: writer.
 
     Route::group(['prefix' => 'writers_posts',], function () {
         Route::get('/', [DashboardController::class, 'generate_writer_page'])->name('dashboard_writers_posts');
@@ -77,14 +81,37 @@ Route::group(['middleware' => ['auth', 'role:admin|manager|super_admin|writer'],
         Route::post('/post/{id}/get_creator', [DashboardController::class, 'get_creator_of_post'])->name('dashboard_get_post_creator');
     });
     
+    // Routes to controll users. Minimum-access role: admin.
+
     Route::group(['middleware' => 'role:admin|super_admin', 'prefix' => 'users'], function () {
         Route::get('/', [DashboardController::class, 'generate_users_page'])->name('dashboard_users');
+
         Route::get('user/{id}/remove_role/{role}', [DashboardController::class, 'remove_role_from_user'])->name('dashboard_remove_user_role')->whereIn('role', Role::all()->pluck('name')->toArray());
         Route::get('grant_role/{role}', [DashboardController::class, 'generate_user_role_form'])->name('dashboard_grant_role_to_user')->whereIn('role', Role::all()->pluck('name')->toArray());
         Route::post('grant_role/{role}', [DashboardController::class, 'get_user_role'])->name('dashboard_set_role_to_user')->whereIn('role', Role::all()->pluck('name')->toArray());
+        
+        // Route created special for bar in users form.
         Route::post('/get_all_logins', [DashboardController::class, 'get_all_logins'])->name('get_all_logins');
     });
+
+    // Routes to controll catalog. Minimum-access role: manager.
+
+    Route::group(['middleware' => 'role:super_admin|admin|manager', 'prefix' => 'catalog'], function () {
+        Route::get('/', [DashboardController::class, 'generate_catalog_home_page'])->name('dashboard_catalog');
+        
+        // create
+
+        Route::get('/create_category', [DashboardController::class, 'generate_categories_create_form'])->name('dashboard_create_category');
+        Route::post('/create_category', [DashboardController::class, 'insert_created_category'])->name('dashboard_send_created_category');
+
+        // edit
+
+        Route::get('/category/{id}/edit', [DashboardController::class, 'generate_categories_edit_form'])->name('dashboard_edit_category')->whereIn('id', Category::all()->pluck('id')->toArray());
+        Route::post('/category/{id}/edit', [DashboardController::class, 'insert_edited_category'])->name('dashboard_save_edited_category')->whereIn('id', Category::all()->pluck('id')->toArray());
+
+
+        Route::get('/category/{id}', [DashboardController::class, 'generate_category_contains'])->name('dashboard_category_contains')->whereIn('id', Category::all()->pluck('id')->toArray());
+        Route::get('/category/{id}/delete', [DashboardController::class, 'delete_category'])->name('dashboard_category_delete')->whereIn('id', Category::all()->pluck('id')->toArray());
+    });
 });
-
-
 

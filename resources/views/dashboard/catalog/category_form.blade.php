@@ -1,0 +1,43 @@
+@extends('layouts.dashboard_layout')
+
+@section('styles')
+<link rel="stylesheet" href="{{ asset('styles/dashboard/catalog/category_form.css') }}">
+@endsection
+
+@section('title')
+@if($status == 'create')
+    Create category
+@else
+    Edit category
+@endif
+@endsection
+
+@section('content')
+<a href="{{ route('dashboard_catalog') }}"class="btn btn-outline-secondary" id="return_to_categories_list">Return to categories</a>
+<div class="form">
+    <form action="<?= $status == 'create' ? route('dashboard_send_created_category') : route('dashboard_save_edited_category', ['id' => $category->id]) ?>" method="POST">
+        @csrf
+        <div class="mb-3 d-flex flex-column">
+            <label for="name" class="form-label">Name of category</label>
+            <input type="text" class="form-control" name="name" value="<?= $status == 'edit' ? $category->name : '' ?>">
+        </div>
+        @foreach($errors->all() as $error)
+        <div class="alert alert-danger">
+            {{ $error }}
+        </div>
+        @endforeach
+        @if(session()->has('message'))
+        <div class="alert alert-success">
+            {{ session('message') }}
+        </div>
+        @endif
+        <button type="submit" class="btn btn-primary">
+            @if($status == 'create')
+                Create
+            @else
+                Save changes
+            @endif
+        </button>
+    </form>
+</div>
+@endsection

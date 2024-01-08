@@ -11,7 +11,7 @@ Project Platform
 @section('content')
 
 <div class="header">
-    <img src="{{ asset('imgs/welcome/header.jpg') }}" alt="header">
+    <img src="{{ asset('storage/imgs/welcome_page/header.jpg') }}" alt="header">
     <div class="header_text">
         <span role="title">Lorem ipsum dolor sit amet.</span>
         <span role="text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste exercitationem sint nihil itaque animi sit doloribus, suscipit quo sunt modi!</span>
@@ -32,28 +32,28 @@ Project Platform
 <div class="figures row">
     <div class="figure col-xs-6">
         <div>
-            <img src="{{ asset('imgs/welcome/figures/figure.jpg') }}" alt="figure">
+            <img src="{{ asset('storage/imgs/welcome_page/figure.jpg') }}" alt="figure">
             <span role="title">Lorem ipsum dolor sit amet.</span>
         </div>
         <span role="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore rerum voluptatum libero similique, aspernatur repellendus. Vel voluptas aliquam dolorum quas.</span>
     </div>
     <div class="figure col-xs-6">
         <div>
-            <img src="{{ asset('imgs/welcome/figures/figure.jpg') }}" alt="figure">
+            <img src="{{ asset('storage/imgs/welcome_page/figure.jpg') }}" alt="figure">
             <span role="title">Lorem ipsum dolor sit amet.</span>
         </div>
         <span role="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore rerum voluptatum libero similique, aspernatur repellendus. Vel voluptas aliquam dolorum quas.</span>
     </div>
     <div class="figure col-xs-6">
         <div>
-            <img src="{{ asset('imgs/welcome/figures/figure.jpg') }}" alt="figure">
+            <img src="{{ asset('storage/imgs/welcome_page/figure.jpg') }}" alt="figure">
             <span role="title">Lorem ipsum dolor sit amet.</span>
         </div>
         <span role="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore rerum voluptatum libero similique, aspernatur repellendus. Vel voluptas aliquam dolorum quas.</span>
     </div>
     <div class="figure col-xs-6">
         <div>
-            <img src="{{ asset('imgs/welcome/figures/figure.jpg') }}" alt="figure">
+            <img src="{{ asset('storage/imgs/welcome_page/figure.jpg') }}" alt="figure">
             <span role="title">Lorem ipsum dolor sit amet.</span>
         </div>
         <span role="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore rerum voluptatum libero similique, aspernatur repellendus. Vel voluptas aliquam dolorum quas.</span>
