@@ -176,6 +176,12 @@ class DashboardController extends Controller
         $user = User::where(['login' => auth()->user()->login])->first();
         $selected_user = User::where(['login' => $request->login])->first();
 
+if($selected_user->hasRole('super_admin'){
+return back()->withErrors([
+'message' => 'You can not grant role to super-admin!',
+]);
+}
+
         if($selected_user == null) {
             return back()->withErrors([
                 'message' => 'User does not exist!',
