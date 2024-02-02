@@ -15,7 +15,7 @@
     <div class="container">
         <div class="navi row d-flex flex-row justify-content-around align-items-center">
             <a href="/" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">home</a>
-            <a href="/catalog" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">catalog</a>
+            <a href="{{ route('catalog') }}" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">catalog</a>
             <a href="/about" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">cart</a>
             <a href="/profile" class="col-sm-12 col-md-2 btn btn-primary btn-lg active profile_title" aria-disabled="true" role="button"></a>
         </div>
@@ -23,7 +23,7 @@
           <div class="bg-white p-4">
             <div class="hidden row d-flex flex-row justify-content-around align-items-center">
               <a href="/" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">home</a>
-              <a href="/catalog" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">catalog</a>
+              <a href="route('catalog')" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">catalog</a>
               <a href="/about" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">Cart</a>
               <a href="/profile" class="col-sm-12 col-md-2 btn btn-primary btn-lg active profile_title" aria-disabled="true" role="button"></a>
             </div>
@@ -42,8 +42,7 @@
         @yield('content')
     </div>
 
-
-  <script src = "https://ajax.aspnetCDN.com/ajax/jQuery/jQuery-3.3.1.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <script>
     const checkAuth = "{{ route('checkAuth') }}"
   </script>

@@ -1,3 +1,21 @@
 #return_to_categories {
     margin: 20px 0 40px 0;
 }
+
+.add_product {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #000;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.add_product a {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 22px;
+    color: #000;
+}
+
+

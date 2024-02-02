@@ -176,11 +176,11 @@ class DashboardController extends Controller
         $user = User::where(['login' => auth()->user()->login])->first();
         $selected_user = User::where(['login' => $request->login])->first();
 
-if($selected_user->hasRole('super_admin'){
-return back()->withErrors([
-'message' => 'You can not grant role to super-admin!',
-]);
-}
+        if($selected_user->hasRole('super_admin')){
+            return back()->withErrors([
+                'message' => 'You can not grant role to super-admin!',
+            ]);
+        }
 
         if($selected_user == null) {
             return back()->withErrors([
@@ -263,9 +263,16 @@ return back()->withErrors([
         return back()->with('message', 'Category successfull updated!');
     }
 
+    public function delete_category($id) {
+        $category = Category::where(['id' => $id])->first();
+        $category->delete();
+
+        return back()->with('message', 'Category successfull deleted!');
+    }
+
     public function generate_category_contains($id) {
         $category = Category::where(['id' => $id])->first();
-    
+
         $products = Product::where(['id_parent_category' => $category->id])->get();
         
         return view('dashboard.catalog.products_list', [
@@ -274,10 +281,14 @@ return back()->withErrors([
         ]);
     }
 
-    public function delete_category($id) {
-        $category = Category::where(['id' => $id])->first();
-        $category->delete();
+    public function generate_products_create_form() {
 
-        return back()->with('message', 'Category successfull deleted!');
+        return view('dashboard.catalog.products_form', [
+            'status' => 'create',
+        ]);
+    }
+
+    public function dashboard_send_created_product(Request $request, $id) {
+        
     }
 }

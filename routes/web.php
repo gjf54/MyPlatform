@@ -7,8 +7,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EditProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use Spatie\Permission\Models\Role;
 
 /*
@@ -22,17 +22,33 @@ use Spatie\Permission\Models\Role;
 |
 */
 
-Route::post('/checkAuth', [MainLayoutController::class, 'check'])->name('checkAuth');
+// navigation routes
 
-Route::get('/', [HomeController::class, 'load'])->name('home');
+{
+    Route::get('/', [HomeController::class, 'load'])->name('home');
+    Route::get('/catalog', [CatalogController::class, 'display_categories'])->name('catalog');
+}
 
-Route::get('/catalog', [CatalogController::class, 'display_categories'])->name('catalog');
+// special global rotues
+
+{
+    Route::post('/checkAuth', [MainLayoutController::class, 'check'])->name('checkAuth');
+}
+
+
+
+// auth routes
 
 Route::group(['middleware' => 'guest:web'], function ($router) {
+
+    // registration
+
     Route::get('/register', function() {
         return view('auth.register');
     })->name('register');
     Route::post('/register', [AuthController::class, 'register']);
+
+    // log in
 
     Route::get('/login', function() {
         return view('auth.login');
@@ -40,12 +56,21 @@ Route::group(['middleware' => 'guest:web'], function ($router) {
     Route::post('/login', [AuthController::class, 'login']);
 });
 
+// user-routes group
+
 Route::group(['middleware' => 'auth'], function ($router) {
+
+    // main abilities
+
     Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     
+    // manage user profile
+
     Route::group(['prefix' => 'profile'], function ($router) {
         
+        // edit user data
+
         Route::get('/edit/data', function () {
             return view('edit_profile.data', ['user' => auth()->user(),]);    
         })->name('edit_data');
@@ -73,11 +98,23 @@ Route::group(['middleware' => ['auth', 'role:admin|manager|super_admin|writer'],
 
     Route::group(['prefix' => 'writers_posts',], function () {
         Route::get('/', [DashboardController::class, 'generate_writer_page'])->name('dashboard_writers_posts');
+        
+        // edit
+        
         Route::get('/post/{id}/edit', [DashboardController::class, 'generate_edit_form_of_post'])->name('dashboard_edit_post');
         Route::post('/post/{id}/edit', [DashboardController::class, 'edit_writers_post'])->name('dashboard_send_edit_post');
+
+        // delete
+
         Route::get('/post/{id}/delete', [DashboardController::class, 'delete_writers_post'])->name('dashboard_delete_post');
+
+        // create
+
         Route::get('/create', [DashboardController::class, 'generate_create_form_of_post'])->name('dashboard_create_post');
         Route::post('/create', [DashboardController::class, 'add_writers_post'])->name('dashboard_send_created_post');
+
+        // special routes
+
         Route::post('/post/{id}/get_creator', [DashboardController::class, 'get_creator_of_post'])->name('dashboard_get_post_creator');
     });
     
@@ -104,14 +141,24 @@ Route::group(['middleware' => ['auth', 'role:admin|manager|super_admin|writer'],
         Route::get('/create_category', [DashboardController::class, 'generate_categories_create_form'])->name('dashboard_create_category');
         Route::post('/create_category', [DashboardController::class, 'insert_created_category'])->name('dashboard_send_created_category');
 
+        Route::get('/category/{id}/create_product', [DashboardController::class, 'generate_products_create_form'])->name('dashboard_create_product');
+        Route::post('/category/{id}/create_product', [DashboardController::class, 'insert_created_product'])->name('dashboard_send_created_product');
+
         // edit
 
         Route::get('/category/{id}/edit', [DashboardController::class, 'generate_categories_edit_form'])->name('dashboard_edit_category')->whereIn('id', Category::all()->pluck('id')->toArray());
         Route::post('/category/{id}/edit', [DashboardController::class, 'insert_edited_category'])->name('dashboard_save_edited_category')->whereIn('id', Category::all()->pluck('id')->toArray());
+        Route::get('/category/{id_category}/product/{id_product}/edit', [DashboardController::class, 'generate_products_edit_form'])->name('dashboard_edit_product')->whereIn('id_category', Category::all()->pluck('id')->toArray());
+        Route::post('/category/{id_category}/product/{id_product}/edit', [DashboardController::class, 'insert_edited_product'])->name('dashboard_save_edited_product')->whereIn('id_category', Category::all()->pluck('id')->toArray());
+        
+        // delete
 
-
-        Route::get('/category/{id}', [DashboardController::class, 'generate_category_contains'])->name('dashboard_category_contains')->whereIn('id', Category::all()->pluck('id')->toArray());
         Route::get('/category/{id}/delete', [DashboardController::class, 'delete_category'])->name('dashboard_category_delete')->whereIn('id', Category::all()->pluck('id')->toArray());
+
+        // special routes
+
+        Route::get('/category/{id}/', [DashboardController::class, 'generate_category_contains'])->name('dashboard_category_contains')->whereIn('id', Category::all()->pluck('id')->toArray());
+
     });
 });
 
