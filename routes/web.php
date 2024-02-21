@@ -64,23 +64,23 @@ Route::group(['middleware' => 'auth'], function ($router) {
 
     Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-    
+
     // manage user profile
 
     Route::group(['prefix' => 'profile'], function ($router) {
-        
+
         // edit user data
 
         Route::get('/edit/data', function () {
-            return view('edit_profile.data', ['user' => auth()->user(),]);    
+            return view('edit_profile.data', ['user' => auth()->user(),]);
         })->name('edit_data');
-        
+
         Route::get('/edit/password', function () {
             return view('edit_profile.password');
         })->name('edit_password');
-        
+
         Route::get('/edit/email', function () {
-            return view('edit_profile.email', ['user' => auth()->user(),]);    
+            return view('edit_profile.email', ['user' => auth()->user(),]);
         })->name('edit_email');
 
         Route::post('edit/data', [EditProfileController::class, 'fresh_data'])->name('fresh_profile_data');
@@ -93,14 +93,14 @@ Route::group(['middleware' => 'auth'], function ($router) {
 
 Route::group(['middleware' => ['auth', 'role:admin|manager|super_admin|writer'], 'prefix' => 'dashboard',], function () {
     Route::get('/', [DashboardController::class, 'generate_home_page'])->name('dashboard');
-    
+
     // Routes to contorll posts. Minimum-access role: writer.
 
     Route::group(['prefix' => 'writers_posts',], function () {
         Route::get('/', [DashboardController::class, 'generate_writer_page'])->name('dashboard_writers_posts');
-        
+
         // edit
-        
+
         Route::get('/post/{id}/edit', [DashboardController::class, 'generate_edit_form_of_post'])->name('dashboard_edit_post');
         Route::post('/post/{id}/edit', [DashboardController::class, 'edit_writers_post'])->name('dashboard_send_edit_post');
 
@@ -117,16 +117,16 @@ Route::group(['middleware' => ['auth', 'role:admin|manager|super_admin|writer'],
 
         Route::post('/post/{id}/get_creator', [DashboardController::class, 'get_creator_of_post'])->name('dashboard_get_post_creator');
     });
-    
+
     // Routes to controll users. Minimum-access role: admin.
 
     Route::group(['middleware' => 'role:admin|super_admin', 'prefix' => 'users'], function () {
         Route::get('/', [DashboardController::class, 'generate_users_page'])->name('dashboard_users');
 
-        Route::get('user/{id}/remove_role/{role}', [DashboardController::class, 'remove_role_from_user'])->name('dashboard_remove_user_role')->whereIn('role', Role::all()->pluck('name')->toArray());
-        Route::get('grant_role/{role}', [DashboardController::class, 'generate_user_role_form'])->name('dashboard_grant_role_to_user')->whereIn('role', Role::all()->pluck('name')->toArray());
-        Route::post('grant_role/{role}', [DashboardController::class, 'get_user_role'])->name('dashboard_set_role_to_user')->whereIn('role', Role::all()->pluck('name')->toArray());
-        
+        Route::get('user/{id}/remove_role/{role}', [DashboardController::class, 'remove_role_from_user'])->name('dashboard_remove_user_role');
+       Route::get('grant_role/{role}', [DashboardController::class, 'generate_user_role_form'])->name('dashboard_grant_role_to_user');
+        Route::post('grant_role/{role}', [DashboardController::class, 'get_user_role'])->name('dashboard_set_role_to_user');
+
         // Route created special for bar in users form.
         Route::post('/get_all_logins', [DashboardController::class, 'get_all_logins'])->name('get_all_logins');
     });
@@ -135,7 +135,7 @@ Route::group(['middleware' => ['auth', 'role:admin|manager|super_admin|writer'],
 
     Route::group(['middleware' => 'role:super_admin|admin|manager', 'prefix' => 'catalog'], function () {
         Route::get('/', [DashboardController::class, 'generate_catalog_home_page'])->name('dashboard_catalog');
-        
+
         // create
 
         Route::get('/create_category', [DashboardController::class, 'generate_categories_create_form'])->name('dashboard_create_category');
@@ -150,7 +150,7 @@ Route::group(['middleware' => ['auth', 'role:admin|manager|super_admin|writer'],
         Route::post('/category/{id}/edit', [DashboardController::class, 'insert_edited_category'])->name('dashboard_save_edited_category')->whereIn('id', Category::all()->pluck('id')->toArray());
         Route::get('/category/{id_category}/product/{id_product}/edit', [DashboardController::class, 'generate_products_edit_form'])->name('dashboard_edit_product')->whereIn('id_category', Category::all()->pluck('id')->toArray());
         Route::post('/category/{id_category}/product/{id_product}/edit', [DashboardController::class, 'insert_edited_product'])->name('dashboard_save_edited_product')->whereIn('id_category', Category::all()->pluck('id')->toArray());
-        
+
         // delete
 
         Route::get('/category/{id}/delete', [DashboardController::class, 'delete_category'])->name('dashboard_category_delete')->whereIn('id', Category::all()->pluck('id')->toArray());

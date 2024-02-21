@@ -121,7 +121,14 @@ class DashboardController extends Controller
 
     public function remove_role_from_user($id, $role) {
         $selected_user = User::where(['id' => $id,])->first();
+        $selected_role = Role::where(['name'] => $role)->first();
         $user = User::where(['id' => auth()->user()->id])->first();
+
+		if($selected_role == null) {
+			return back()->withErrors([	
+				'message' => 'Role "' . $role . '" does not exist';
+			]);
+		}
 
         if($selected_user->hasRole('super_admin')) {
             return back()->withErrors([
@@ -144,6 +151,14 @@ class DashboardController extends Controller
     }
 
     public function generate_user_role_form($role) {
+    	$selected_role = Role::where(['name' => $role])->first();
+    
+    	if($selected_roles == null) {
+    		return back()->withErrors([
+				'message' => 'Role "' . $role . '" does not exist',
+			]);	
+    	}
+    
         if($role == 'super_admin') {
             abort(404);
         }
@@ -175,6 +190,13 @@ class DashboardController extends Controller
 
         $user = User::where(['login' => auth()->user()->login])->first();
         $selected_user = User::where(['login' => $request->login])->first();
+        $selected_role = Role::where(['name' => $role])->first();
+        
+        if($selected_role == null) {
+			return back()->withErrors([	
+				'message' => 'Role "' . $role . '" does not exist';
+			]);
+		}
 
         if($selected_user->hasRole('super_admin')){
             return back()->withErrors([
