@@ -121,12 +121,12 @@ class DashboardController extends Controller
 
     public function remove_role_from_user($id, $role) {
         $selected_user = User::where(['id' => $id,])->first();
-        $selected_role = Role::where(['name'] => $role)->first();
+        $selected_role = Role::where(['name' => $role])->first();
         $user = User::where(['id' => auth()->user()->id])->first();
 
 		if($selected_role == null) {
 			return back()->withErrors([	
-				'message' => 'Role "' . $role . '" does not exist';
+				'message' => 'Role "' . $role . '" does not exist',
 			]);
 		}
 
@@ -194,7 +194,7 @@ class DashboardController extends Controller
         
         if($selected_role == null) {
 			return back()->withErrors([	
-				'message' => 'Role "' . $role . '" does not exist';
+				'message' => 'Role "' . $role . '" does not exist',
 			]);
 		}
 
@@ -295,7 +295,7 @@ class DashboardController extends Controller
     public function generate_category_contains($id) {
         $category = Category::where(['id' => $id])->first();
 
-        $products = Product::where(['id_parent_category' => $category->id])->get();
+        $products = $category->products;
         
         return view('dashboard.catalog.products_list', [
             'products' => $products,
@@ -303,14 +303,27 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function generate_products_create_form() {
+    public function generate_products_create_form($id) {
+        $category = Category::where(['id' => $id])->first();
 
         return view('dashboard.catalog.products_form', [
             'status' => 'create',
+            'category' => $category,
         ]);
     }
 
-    public function dashboard_send_created_product(Request $request, $id) {
-        
+    public function insert_created_product(Request $request, $id) {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'price' => 'numeric|required',
+            'description' => 'max:500',
+        ]);
+        $validator->validate();
+
+        $category = Category::where(['id' => $id])->first();
+
+        $category->products()->create($validator->validated());
+
+        return back()->with('message', 'product successfull created');
     }
 }

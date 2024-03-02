@@ -16,4 +16,9 @@ class Product extends Model
         'description',
     ];
 
+    protected $table = 'products';
+
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
 }

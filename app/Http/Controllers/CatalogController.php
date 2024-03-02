@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use app\models\Category.php;
-use app\models\Product.php;
+use app\models\Category;
+use app\models\Product;
 
 class CatalogController extends Controller
 {
     public function display_categories() {
-    	$categories = Category:all();
+    	$categories = Category::all();
     
         return view('catalog',  [
 			'categories' => $categories,

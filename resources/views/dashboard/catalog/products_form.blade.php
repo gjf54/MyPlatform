@@ -16,7 +16,8 @@
 
 @section('content')
 <div class="form">
-    <form action="<? $status == 'create' ? route('dashboard_send_created_product', ['id' => $category->id]) : route('dashboard_save_edited_product', ['id' => $category->id]) ?>">
+    <form action="<?= $status == 'create' ? route('dashboard_send_created_product', ['id' => $category->id]) : route('dashboard_save_edited_product', ['id' => $category->id]) ?>" method="POST">
+        @csrf
         <div class="mb-3 d-flex flex-column mb-3">
             <label for="name" class="form-label">Name of product</label>
             <input type="text" name="name" id="name" class="form-control">
