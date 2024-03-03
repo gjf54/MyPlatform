@@ -83,9 +83,14 @@ Route::group(['middleware' => 'auth'], function ($router) {
             return view('edit_profile.email', ['user' => auth()->user(),]);
         })->name('edit_email');
 
+        Route::get('/edit/avatar', function () {
+            return view('edit_profile.avatar');
+        })->name('edit_avatar');
+
         Route::post('edit/data', [EditProfileController::class, 'fresh_data'])->name('fresh_profile_data');
         Route::post('edit/password', [EditProfileController::class, 'fresh_password'])->name('fresh_profile_password');
         Route::post('edit/email', [EditProfileController::class, 'fresh_email'])->name('fresh_profile_email');
+        Route::post('edit/avatar', [EditProfileController::class, 'fresh_avatar'])->name('fresh_profile_avatar');
     });
 });
 
@@ -136,6 +141,11 @@ Route::group(['middleware' => ['auth', 'role:admin|manager|super_admin|writer'],
     Route::group(['middleware' => 'role:super_admin|admin|manager', 'prefix' => 'catalog'], function () {
         Route::get('/', [DashboardController::class, 'generate_catalog_home_page'])->name('dashboard_catalog');
 
+        // view
+
+        Route::get('category/{id_category}/product/{id_product}', [DashboardController::class, 'generate_product_view'])->name('product_view');
+        Route::get('/category/{id}/', [DashboardController::class, 'generate_category_contains'])->name('dashboard_category_contains');
+
         // create
 
         Route::get('/create_category', [DashboardController::class, 'generate_categories_create_form'])->name('dashboard_create_category');
@@ -146,19 +156,15 @@ Route::group(['middleware' => ['auth', 'role:admin|manager|super_admin|writer'],
 
         // edit
 
-        Route::get('/category/{id}/edit', [DashboardController::class, 'generate_categories_edit_form'])->name('dashboard_edit_category')->whereIn('id', Category::all()->pluck('id')->toArray());
-        Route::post('/category/{id}/edit', [DashboardController::class, 'insert_edited_category'])->name('dashboard_save_edited_category')->whereIn('id', Category::all()->pluck('id')->toArray());
-        Route::get('/category/{id_category}/product/{id_product}/edit', [DashboardController::class, 'generate_products_edit_form'])->name('dashboard_edit_product')->whereIn('id_category', Category::all()->pluck('id')->toArray());
-        Route::post('/category/{id_category}/product/{id_product}/edit', [DashboardController::class, 'insert_edited_product'])->name('dashboard_save_edited_product')->whereIn('id_category', Category::all()->pluck('id')->toArray());
+        Route::get('/category/{id}/edit', [DashboardController::class, 'generate_categories_edit_form'])->name('dashboard_edit_category');
+        Route::post('/category/{id}/edit', [DashboardController::class, 'insert_edited_category'])->name('dashboard_save_edited_category');
+        Route::get('/category/{id_category}/product/{id_product}/edit', [DashboardController::class, 'generate_products_edit_form'])->name('dashboard_edit_product');
+        Route::post('/category/{id_category}/product/{id_product}/edit', [DashboardController::class, 'insert_edited_product'])->name('dashboard_save_edited_product');
 
         // delete
 
-        Route::get('/category/{id}/delete', [DashboardController::class, 'delete_category'])->name('dashboard_category_delete')->whereIn('id', Category::all()->pluck('id')->toArray());
-
-        // special routes
-
-        Route::get('/category/{id}/', [DashboardController::class, 'generate_category_contains'])->name('dashboard_category_contains')->whereIn('id', Category::all()->pluck('id')->toArray());
-
+        Route::get('/category/{id}/delete', [DashboardController::class, 'delete_category'])->name('dashboard_category_delete');
+        Route::get('/category/{id_category}/product/{id_product}/delete', [DashboardController::class, 'delete_product'])->name('dashboard_product_delete');
     });
 });
 

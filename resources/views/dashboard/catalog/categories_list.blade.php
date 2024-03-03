@@ -26,7 +26,7 @@ Edit Catalog
                 <a href="{{ route('dashboard_category_delete', ['id' => $category->id]) }}" class="btn btn-danger">Delete</a>
             </div>
             <a href="{{ route('dashboard_category_contains', ['id' => $category->id]) }}">
-                <img src="<?= asset('storage/imgs/categories/'.$category->image) ?>" alt="">
+                <img src="{{ asset(Storage::url($category->image)) }}" alt="">
                 <span>{{ $category->name }}</span>
             </a>
         </div>

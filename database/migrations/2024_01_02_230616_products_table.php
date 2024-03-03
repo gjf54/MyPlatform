@@ -19,8 +19,8 @@ return new class extends Migration
 
             $table->string('name');
             $table->float('price');
-            $table->longText('description');
-            $table->string('image')->default('default.jpg');
+            $table->longText('description')->nullable();
+            $table->string('image')->default('public/imgs/products/default.jpg')->nullable();
             $table->timestamps();
         });
     }

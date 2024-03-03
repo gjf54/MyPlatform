@@ -18,10 +18,10 @@ Products list
         <div class="product col-xl-4 col-md-6">
             <div class="buttons">
                 <a href="<?= route('dashboard_edit_product', ['id_category' => $category->id, 'id_product' => $product->id]) ?>" class="btn btn-primary">Edit</a>
-                <a href="#" class="btn btn-danger">Delete</a>
+                <a href="{{ route('dashboard_product_delete', ['id_category' => $category->id, 'id_product' => $product->id]) }}" class="btn btn-danger">Delete</a>
             </div>
-            <a href="#">
-                <img src="<?= asset('storage/imgs/products/'.$product->image)?>" alt="product img">
+            <a href="{{ route('product_view', ['id_category' => $category->id, 'id_product' => $product->id]) }}">
+                <img src="{{ asset(Storage::url($product->image)) }}" alt="product img">
                 <span role="name">{{ $product->name }}</span>
                 <span role="price">{{ "$".$product->price }}</span>
             </a>

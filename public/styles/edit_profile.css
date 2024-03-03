@@ -4,7 +4,7 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    min-height: 40vh;
+    min-height: 20vh;
     margin-top: 5vh;
     margin-bottom: 5vh;
 }
@@ -24,6 +24,10 @@
 .form form span[role="error"]{
     margin: 0px 0px 20px 0;
     color: red;
+}
+
+form > button {
+    margin-top: auto;
 }
 
 @media screen and (max-width: 767px) {

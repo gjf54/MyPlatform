@@ -27,7 +27,7 @@ Edit post
         @csrf
         <div class="mb-3 d-flex flex-column">
             <label for="title" class="form-label">Enter title of post</label>
-            <input type="text" name="title" class="form-control" 
+            <input type="text" name="title" id="title" class="form-control" 
                 <?php 
                     if($status == 'edit') {
                         echo 'value="'.$post->title.'"';
@@ -43,7 +43,7 @@ Edit post
                     }
                 ?>
             </textarea>
-            <label for="title" class="form-label">Enter text of post</label>
+            <label for="text_of_post" class="form-label">Enter text of post</label>
         </div>
         @foreach($errors->all() as $error)
             <div class="alert alert-danger" role="alert">

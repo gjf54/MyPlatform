@@ -14,7 +14,7 @@ Profile
         <div class="grey"></div>
         <div class="header_content">
                 <div class="main">
-                        <img src="{{ asset('storage/imgs/users_avatars/default.jpg') }}" alt="avatar">
+                        <img src="{{ asset(Storage::url($user->image)) }}" alt="avatar">
                         <div class="text">        
                                 <span role="nameSurname">{{ $user->name }} {{ $user->surname }}</span>
                                 <span role="login"> <?php echo '@'.$user->login ?></span>
@@ -28,6 +28,7 @@ Profile
                                         </button>
                                         <ul class="dropdown-menu">
                                           <li><a class="dropdown-item" href="{{ route('edit_data') }}">Edit Name/Surname</a></li>
+                                          <li><a class="dropdown-item" href="{{ route('edit_avatar') }}">Edit Avatar</a></li>
                                           <li><a class="dropdown-item" href="{{ route('edit_password') }}">Edit password</a></li>
                                           <li><a class="dropdown-item" href="{{ route('edit_email') }}">Edit E-Mail</a></li>
                                         </ul>

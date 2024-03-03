@@ -7,9 +7,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
-class EditProfileController extends Controller
-{
+class EditProfileController extends Controller {
+    protected $default_avatar = 'default.jpg';
+    protected $default_avatar_path = 'public/imgs/users_avatars/';
+
     public function fresh_data(Request $request) {
         Validator::make($request->all(), [
             'name' => 'required',
@@ -89,5 +92,26 @@ class EditProfileController extends Controller
         return back()->withErrors([
             'email' => 'Incorrect password!'
         ]);
+    }
+
+    public function fresh_avatar(Request $request){
+        Validator::make($request->all(), [
+            'avatar' => 'required|image|max:2048|',
+        ])->validate();
+        
+        $auth_user = auth()->user();
+        $user = User::where(['login' => $auth_user->login])->first();
+
+        if($user->image != $this->default_avatar_path . $this->default_avatar) {
+            Storage::disk('local')->delete($user->image);
+        }
+
+        $path = Storage::disk('local')->put($this->default_avatar_path, $request->avatar);
+        
+
+        $user->image = $path;
+        $user->save();
+
+        return back()->with('message', 'successfull update');
     }
 }

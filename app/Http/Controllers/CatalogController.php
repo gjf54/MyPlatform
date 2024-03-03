@@ -11,7 +11,7 @@ class CatalogController extends Controller
     public function display_categories() {
     	$categories = Category::all();
     
-        return view('catalog',  [
+        return view('catalog.catalog',  [
 			'categories' => $categories,
 		]);
     }

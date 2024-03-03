@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->string('image')->default('default.jpg')->nullable();
+            $table->string('image')->default('public/imgs/categories/default.jpg')->nullable();
             $table->timestamps();
         });
     }

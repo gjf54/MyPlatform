@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Role;
 
 class DashboardController extends Controller
 {
@@ -153,7 +154,7 @@ class DashboardController extends Controller
     public function generate_user_role_form($role) {
     	$selected_role = Role::where(['name' => $role])->first();
     
-    	if($selected_roles == null) {
+    	if($selected_role == null) {
     		return back()->withErrors([
 				'message' => 'Role "' . $role . '" does not exist',
 			]);	
@@ -325,5 +326,55 @@ class DashboardController extends Controller
         $category->products()->create($validator->validated());
 
         return back()->with('message', 'product successfull created');
+    }
+
+    public function generate_products_edit_form($id_category, $id_product){
+        $category = Category::where(['id' => $id_category])->first();
+
+        $product = $category->products->where('id', $id_product)->first();
+
+        return view('dashboard.catalog.products_form', [
+            'status' => 'edit',
+            'category' => $category,
+            'product' => $product,
+        ]);
+    }
+
+    public function insert_edited_product(Request $request, $id_category, $id_product){
+        Validator::make($request->all(), [
+            'name' => 'required',
+            'price' => 'numeric|required',
+            'description' => 'max:500',
+        ])->validate();
+
+        $category = $category = Category::where(['id' => $id_category])->first();
+        $product = $category->products->where('id', $id_product)->first();
+
+        $product->name = $request->name;
+        $product->price = $request->price;
+        $product->description = $request->description;
+
+        $product->save();
+
+        return back()->with('message', 'Successfull update');
+    }
+
+    public function generate_product_view($id_category, $id_product){
+        $category = Category::where(['id' => $id_category])->first();
+        $product = $category->products->where('id', $id_product)->first();
+
+        return view('dashboard.catalog.product_view', [
+            'product' => $product,
+            'category' => $category,
+        ]);
+    }
+
+    public function delete_product($id_category, $id_product){
+        $category = Category::where(['id' => $id_category])->first();
+        $product = $category->products->where('id', $id_product)->first();
+
+        $product->delete();
+
+        return back()->with('message', 'Successfull product delete');
     }
 }
