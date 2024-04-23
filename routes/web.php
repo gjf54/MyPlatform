@@ -6,8 +6,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EditProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ShoppingCartController;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ShoppingCart;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
 
@@ -64,6 +66,7 @@ Route::group(['middleware' => 'auth'], function ($router) {
 
     Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/cart', [ShoppingCartController::class, 'generate_cart_page'])->name('shopping_cart');
 
     // manage user profile
 

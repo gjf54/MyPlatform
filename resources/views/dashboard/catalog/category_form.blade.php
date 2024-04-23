@@ -29,7 +29,7 @@
         @if(session()->has('message'))
         <div class="alert alert-success">
             {{ session('message') }}
-        </div>
+        </div> 
         @endif
         <button type="submit" class="btn btn-primary">
             @if($status == 'create')

@@ -125,6 +125,12 @@ class DashboardController extends Controller
         $selected_role = Role::where(['name' => $role])->first();
         $user = User::where(['id' => auth()->user()->id])->first();
 
+        if($selected_user == null) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+            return back()->withErrors([
+                'message' => 'User with does not exist',
+            ]);
+        }
+
 		if($selected_role == null) {
 			return back()->withErrors([	
 				'message' => 'Role "' . $role . '" does not exist',
@@ -193,6 +199,12 @@ class DashboardController extends Controller
         $selected_user = User::where(['login' => $request->login])->first();
         $selected_role = Role::where(['name' => $role])->first();
         
+        if($selected_user == null) {
+            return back()->withErrors([
+                'message' => 'User with login "' . $request->login . '" does not exist',
+            ]);
+        }
+
         if($selected_role == null) {
 			return back()->withErrors([	
 				'message' => 'Role "' . $role . '" does not exist',

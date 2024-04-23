@@ -20,16 +20,16 @@
         <div class="navi row d-flex flex-row justify-content-around align-items-center">
             <a href="/" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">home</a>
             <a href="{{ route('catalog') }}" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">catalog</a>
-            <a href="/about" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">cart</a>
-            <a href="/profile" class="col-sm-12 col-md-2 btn btn-primary btn-lg active profile_title" aria-disabled="true" role="button"></a>
+            <a href="{{ route('shopping_cart') }}" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">cart</a>
+            <a href="{{ route('profile') }}" class="col-sm-12 col-md-2 btn btn-primary btn-lg active profile_title" aria-disabled="true" role="button"></a>
         </div>
         <div class="collapse" id="navbarToggleExternalContent">
           <div class="bg-white p-4">
             <div class="hidden row d-flex flex-row justify-content-around align-items-center">
               <a href="/" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">home</a>
-              <a href="route('catalog')" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">catalog</a>
-              <a href="/about" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">Cart</a>
-              <a href="/profile" class="col-sm-12 col-md-2 btn btn-primary btn-lg active profile_title" aria-disabled="true" role="button"></a>
+              <a href="{{ route('catalog') }}" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">catalog</a>
+              <a href="{{ route('shopping_cart') }}" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">Cart</a>
+              <a href="{{ route('profile') }}" class="col-sm-12 col-md-2 btn btn-primary btn-lg active profile_title" aria-disabled="true" role="button"></a>
             </div>
           </div>
         </div>

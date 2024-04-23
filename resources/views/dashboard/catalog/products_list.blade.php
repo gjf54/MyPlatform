@@ -10,6 +10,16 @@ Products list
 
 @section('content')
 <a href="{{ route('dashboard_catalog') }}" id="return_to_categories" class="btn btn-outline-secondary">Return to categories</a>
+@foreach($errors->all() as $error)
+        <div class="alert alert-danger">
+            {{ $error }}
+        </div>
+@endforeach
+@if(session()->has('message'))
+    <div class="alert alert-success">
+        {{ session('message') }}
+    </div>
+@endif
 <div class="products row g-4">
     <div class="add_product col-xl-4 col-md-6">
         <a href="{{ route('dashboard_create_product', ['id' => $category->id]) }}">Add product</a>

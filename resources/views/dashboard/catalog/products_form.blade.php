@@ -29,8 +29,18 @@
         </div>
         <div class="mb-3 d-flex flex-column mb-3">
             <label for="description" class="form-label">Description (optional)</label>
-            <textarea type="text" name="description" id="description" class="form-control" value="<?= $status == 'edit' ? $product->description : '' ?>"></textarea>
+            <textarea type="text" name="description" id="description" class="form-control"><?= $status == 'edit' ? $product->description : '' ?></textarea>
         </div>
+        @foreach($errors->all() as $error)
+        <div class="alert alert-danger">
+            {{ $error }}
+        </div>
+        @endforeach
+        @if(session()->has('message'))
+        <div class="alert alert-success">
+            {{ session('message') }}
+        </div>
+        @endif
         <button type="submit" class="btn btn-primary">
             @if($status == 'create')
                 Create product
