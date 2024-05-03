@@ -29,6 +29,7 @@ use Spatie\Permission\Models\Role;
 {
     Route::get('/', [HomeController::class, 'load'])->name('home');
     Route::get('/catalog', [CatalogController::class, 'display_categories'])->name('catalog');
+    Route::get('/cart', [ShoppingCartController::class, 'generate_cart_page'])->name('shopping_cart');
 }
 
 // special global rotues
@@ -66,7 +67,6 @@ Route::group(['middleware' => 'auth'], function ($router) {
 
     Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-    Route::get('/cart', [ShoppingCartController::class, 'generate_cart_page'])->name('shopping_cart');
 
     // manage user profile
 
@@ -95,6 +95,12 @@ Route::group(['middleware' => 'auth'], function ($router) {
         Route::post('edit/email', [EditProfileController::class, 'fresh_email'])->name('fresh_profile_email');
         Route::post('edit/avatar', [EditProfileController::class, 'fresh_avatar'])->name('fresh_profile_avatar');
     });
+
+    // shopping cart control
+
+    Route::post('/cart/{id}/add_amount', [ShoppingCartController::class, 'add_amount'])->name('add_amount');
+    Route::post('/cart/{id}/rem_amount', [ShoppingCartController::class, 'rem_amount'])->name('rem_amount');
+
 });
 
 // Dashboard
