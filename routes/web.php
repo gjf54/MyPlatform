@@ -99,7 +99,8 @@ Route::group(['middleware' => 'auth'], function ($router) {
     // shopping cart control
 
     Route::post('/cart/{id}/add_amount', [ShoppingCartController::class, 'add_amount'])->name('add_amount');
-    Route::post('/cart/{id}/rem_amount', [ShoppingCartController::class, 'rem_amount'])->name('rem_amount');
+    Route::post('/cart/{id}/rem_amount', [ShoppingCartController::class, 'remove_amount'])->name('rem_amount');
+    Route::post('/cart/{id}/rem_element', [ShoppingCartController::class, 'remove_element'])->name('rem_element');
 
 });
 

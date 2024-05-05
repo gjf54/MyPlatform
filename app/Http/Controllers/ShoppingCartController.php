@@ -28,7 +28,7 @@ class ShoppingCartController extends Controller
         return json_encode($element);
     }
 
-    public function rem_amount($id) {
+    public function remove_amount($id) {
         $element = ShoppingCartCollection::find($id);
         
         if($element->amount < 2) {
@@ -39,5 +39,16 @@ class ShoppingCartController extends Controller
         $element->save();
 
         return json_encode($element);
+    }
+
+    public function remove_element($id) {
+        $element = ShoppingCartCollection::find($id);
+
+        if($element == null) {
+            return 0;
+        }
+
+        $element->delete();
+        return json_encode(['status' => 'ok', 'id' => $id]);
     }
 }
