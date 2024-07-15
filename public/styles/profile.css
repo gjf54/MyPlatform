@@ -56,15 +56,30 @@
 }
 
 .header .buttons {
-    width: 40%;
-    display: flex;
-    justify-content: flex-end;
+    margin-right: 90px;
+    width: 30%;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: end;
+    place-self: start;
+    position: relative;
 }
 
 .header .buttons div {
-    margin-right: 30px;
-    display: flex;
-    flex-direction: row;
+    place-self: center;
+}
+
+.buttons .first {
+    grid-column: 1 ;
+}
+
+.buttons .second {
+    grid-column: 2;
+}
+
+.buttons .third {
+    grid-column: 3;
 }
 
 .header .buttons a, .header .buttons button {
@@ -77,6 +92,72 @@
     position: relative;
 }
 
+.orders {
+    width: 90%;
+    margin: auto;
+    position: relative;
+    height: auto;
+    background: #CCC;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+    justify-content: center;
+    align-items: center;
+}
+
+.orders > span {
+    color: rgba(37, 19, 238, 0.767);
+    font-weight: bold;
+    font-size: 42px;
+    margin: 10px 0 60px 0;
+}
+
+.orders > div {
+    width: 100% !important;
+}
+
+.order {
+    width: auto;
+    padding:10px;
+    background: #EEE;
+    border-radius: 20px;
+    border: 2px solid #000;
+    box-shadow: 0px 0px 30px 0 rgb(37, 19, 238),
+                0px 0px 10px rgb(37, 19, 238),
+                0px 0px 0 0 rgb(0, 0, 0) inset;
+}
+
+.order span[role="order_title"] {
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.order_container {
+    display: grid;
+    gap: 0px;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.order_product {
+    background-color: #DDD;
+    border-radius: 20px;
+    padding: 10px;
+    margin: 5px;
+}
+
+.order_product_info div {
+    display: flex;
+    flex-direction: column;
+}
+
+.order_product_info img {
+    width: 80px;
+    height: 130px;
+    border-radius: 20px;
+}
+
 @media screen and (max-width: 1200px) {
     .header img {
         max-width: 200px;
@@ -84,14 +165,13 @@
 }
 
 @media screen and (max-width: 990px) {
-    .header_content .buttons {
-        width: 50%;
-        justify-content: center;
-    }
-
     .header_content .main {
         flex-direction: column;
         text-align: center;
+    }
+
+    .header_content .buttons {
+        margin-right: 190px;
     }
 }
 
@@ -117,13 +197,40 @@
         flex-direction: column;
     }
 
-    .header_content .buttons {
-        width: 100%;
-        justify-content: space-between;
-    }
-
     .header_content img {
         max-width: 200px;
         align-self: center;
+    }
+
+    .header_content .buttons {
+        margin: auto;
+        width: 70%;
+        align-self: center;
+    }
+}
+
+
+
+@media screen and (max-width: 486px) {
+    .buttons {
+        margin-top: 10px !important;
+    }
+
+    .buttons .first {
+        grid-column: 2;
+    }
+
+    .buttons .second {
+        grid-row: 2;
+        grid-column: 2;
+    }
+
+    .buttons .third {
+        grid-row: 3;
+        grid-column: 2;
+    }
+
+    .order_container {
+        grid-template-columns: repeat(2, 1fr);
     }
 }

@@ -52,9 +52,11 @@ class AuthController extends Controller
     }
 
     public function profile() {
-
+        $user = auth()->user();
+        $orders = $user->orders;
         return view('profile', [    
-            'user' => auth()->user(),
+            'user' => $user,
+            'orders' => $orders,
             'avatar' => 'main.jpg',
         ]);
     }

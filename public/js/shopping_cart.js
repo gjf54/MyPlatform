@@ -55,11 +55,64 @@ function rem_element(url) {
         success: function (data) {
             let response = JSON.parse(data)
             let product = $('#element-' + response.id)
-            console.log(response.id, product, data)
-            product.attr('style', 'display: none !important;')
+            product.remove()
+
+            let products = $('.product')
+            let button = $('#order_button')
+
+            if(products.length == 0) {
+                button.remove()
+            }
         },
         error: function (data) {
             console.log('Shopping cart error - data was not synchronized')
         },
+    })
+}
+
+function set_element(url) {
+    $.ajax({
+        url: url,
+        type: 'POST',
+        success: function (data) {
+            let response = JSON.parse(data)
+            let btn = $('#product-' + response.id)
+            btn.attr('disabled', '')
+        },
+        error: function (data) {
+            console.log('Add product to cart error - data was not synchronized')
+        },
+    })
+}
+
+function confirm_order(){
+    let black_block = $('.black_block')
+    let confirm_window = $('.confirmation_window')
+
+    black_block.css('display', 'block')
+    confirm_window.css('display', 'flex')
+
+    let confirm_button = $('#confirm_button')
+    let unconfirm_button = $('#unconfirm_button')
+
+    confirm_button.click(function (e) { 
+        black_block.css('display', 'none')
+        confirm_window.css('display', 'none')
+
+        $.ajax({
+            url: order_url,
+            type: 'POST',
+            success(response) {
+                window.location.replace("/profile")
+            },
+            error(response) {
+                console.log('Order error - data was not synchronized')
+            },
+        })
+    })
+
+    unconfirm_button.click(function (e) { 
+        black_block.css('display', 'none')
+        confirm_window.css('display', 'none')
     });
 }

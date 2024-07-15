@@ -8,9 +8,9 @@ $.ajax({
     success: function(data) {
         profileButton = $(".profile_title")
         if(!data['ifAuth']) {
-            profileButton.text('Sign In')
+            profileButton.text('Войти')
         }else {
-            profileButton.text('Profile')
+            profileButton.text('Профиль')
         }
 
         profileButton.animate({
@@ -18,6 +18,6 @@ $.ajax({
         }, 4000)
     },
     error: function(data) {
-        console.log('Main Layout error - data not fetched')
+        console.log('Main Layout error - data was not fetched')
     },
 })

@@ -1,5 +1,5 @@
 .products {
-    padding: 40px;
+    padding: 20px;
     margin: 60px 40px 0px 40px;
     background: #DDD;
     border-radius: 20px;
@@ -10,6 +10,7 @@
     background: #FFF;
     border-radius: 20px;
     padding: 20px;
+    margin: 20px ;
 }
 
 .product[hidden="hidden"] {
@@ -88,3 +89,48 @@
     content: "\274c";
 }
 
+.confirmation_window {
+    width: 300px;
+    display: none;
+    position: absolute;
+    margin-right: auto;
+    margin-left: auto;
+    align-self: center;
+    justify-content: center;
+    flex-direction: column;
+    left: 0;
+    right: 0;
+
+    background: #FFF;
+    padding:20px;
+    border-radius: 20px;
+    align-items: center;
+    z-index: 101;
+}
+
+.confirmation_window span {
+    width: 80%;
+    text-align: center;
+}
+
+.confirmation_window div {
+    margin-top: 40px;
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+}
+
+@media screen and (max-width: 767px) {
+    .product {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product > a {
+        align-self: flex-start;
+    }
+
+    .product_control_buttons {
+        align-self: flex-end;
+    }
+}

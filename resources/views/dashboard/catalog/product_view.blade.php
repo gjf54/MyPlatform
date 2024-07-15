@@ -9,7 +9,6 @@
 @endsection
 
 @section('content')
-<a href="{{ route('dashboard_category_contains', ['id' => $category->id]) }}" class="btn btn-outline-secondary" id="return_back">Return back</a>
 <div class="row d-flex justify-content-start main">
     <div class="image col-md-4 col-sm-12 d-flex">
         <img src="{{ asset(Storage::url($product->image)) }}" alt="product img">
@@ -29,9 +28,6 @@
         <div class="info_description d-flex flex-column">
             <span role="title">Description</span>
             <span><?= $product->description == '' ? '...' : $product->description ?></span>
-        </div>
-        <div class="info_edit">
-            <a href="{{ route('dashboard_edit_product', ['id_category' => $category->id, 'id_product' => $product->id]) }}" class="btn btn-primary">Edit</a>
         </div>
     </div>
 </div>
