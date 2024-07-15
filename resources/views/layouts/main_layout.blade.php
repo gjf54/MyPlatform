@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://gist.githubusercontent.com/c-kick/2d717790aadd3aa86884ee0b07c3119f/raw/1e0320625d1988c0a269acd250ea55cfc01519c8/hnl.mobileConsole.js"></script>
     <script>
         mobileConsole.init()
@@ -16,19 +16,20 @@
 </head>
 
 <body>
+    <div class="black_block"></div>
     <div class="container">
         <div class="navi row d-flex flex-row justify-content-around align-items-center">
-            <a href="/" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">home</a>
-            <a href="{{ route('catalog') }}" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">catalog</a>
-            <a href="{{ route('shopping_cart') }}" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">cart</a>
+            <a href="/" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">Главная</a>
+            <a href="{{ route('catalog') }}" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">Каталог</a>
+            <a href="{{ route('shopping_cart') }}" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">Корзина</a>
             <a href="{{ route('profile') }}" class="col-sm-12 col-md-2 btn btn-primary btn-lg active profile_title" aria-disabled="true" role="button"></a>
         </div>
         <div class="collapse" id="navbarToggleExternalContent">
           <div class="bg-white p-4">
             <div class="hidden row d-flex flex-row justify-content-around align-items-center">
-              <a href="/" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">home</a>
-              <a href="{{ route('catalog') }}" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">catalog</a>
-              <a href="{{ route('shopping_cart') }}" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">Cart</a>
+              <a href="/" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">Главная</a>
+              <a href="{{ route('catalog') }}" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">Каталог</a>
+              <a href="{{ route('shopping_cart') }}" class="col-sm-12 col-md-2 btn btn-primary btn-lg active" aria-disabled="true" role="button">Корзина</a>
               <a href="{{ route('profile') }}" class="col-sm-12 col-md-2 btn btn-primary btn-lg active profile_title" aria-disabled="true" role="button"></a>
             </div>
           </div>
@@ -39,7 +40,7 @@
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Переключатель навигации">
                 <span class="navbar-toggler-icon"></span>
               </button>
-              <span style="font-weight: bold; font-size: 24px">Menu</span>
+              <span style="font-weight: bold; font-size: 24px">Меню</span>
             </div>
           </div>
         </div>

@@ -29,7 +29,6 @@ use Spatie\Permission\Models\Role;
 {
     Route::get('/', [HomeController::class, 'load'])->name('home');
     Route::get('/catalog', [CatalogController::class, 'display_categories'])->name('catalog');
-    Route::get('/cart', [ShoppingCartController::class, 'generate_cart_page'])->name('shopping_cart');
 }
 
 // special global rotues
@@ -37,6 +36,15 @@ use Spatie\Permission\Models\Role;
 {
     Route::post('/checkAuth', [MainLayoutController::class, 'check'])->name('checkAuth');
 }
+
+
+
+// catalog routes
+
+Route::group(['prefix' => 'catalog'], function($router) {
+    Route::get('/{id}/products', [CatalogController::class, 'display_category_products'])->name('products_in_category');
+    Route::get('/{id_category}/products/{id_product}/product', [CatalogController::class, 'display_product_view'])->name('catalog_product_view');
+});
 
 
 
@@ -59,12 +67,17 @@ Route::group(['middleware' => 'guest:web'], function ($router) {
     Route::post('/login', [AuthController::class, 'login']);
 });
 
+
+
+
+
 // user-routes group
 
 Route::group(['middleware' => 'auth'], function ($router) {
 
     // main abilities
 
+    Route::get('/cart', [ShoppingCartController::class, 'generate_cart_page'])->name('shopping_cart');
     Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -98,10 +111,12 @@ Route::group(['middleware' => 'auth'], function ($router) {
 
     // shopping cart control
 
-    Route::post('/cart/{id}/add_amount', [ShoppingCartController::class, 'add_amount'])->name('add_amount');
-    Route::post('/cart/{id}/rem_amount', [ShoppingCartController::class, 'remove_amount'])->name('rem_amount');
-    Route::post('/cart/{id}/rem_element', [ShoppingCartController::class, 'remove_element'])->name('rem_element');
+    Route::post('/cart/{id}/add_amount', [ShoppingCartController::class, 'add_amount'])->name('cart_add_amount');
+    Route::post('/cart/{id}/rem_amount', [ShoppingCartController::class, 'remove_amount'])->name('cart_rem_amount');
+    Route::post('/cart/{id}/rem_element', [ShoppingCartController::class, 'remove_element'])->name('cart_rem_element');
+    Route::post('/cart/{id}/set_element', [ShoppingCartController::class, 'set_element'])->name('cart_set_element');
 
+    Route::post('/cart', [ShoppingCartController::class, 'make_order'])->name('cart_make_order');
 });
 
 // Dashboard

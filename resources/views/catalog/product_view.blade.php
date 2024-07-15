@@ -9,5 +9,47 @@
 @endsection
 
 @section('content')
+<a href="{{ route('products_in_category', ['id' => $category->id]) }}" class="btn btn-outline-secondary" id="return_back">Return back</a>
+<div class="row d-flex justify-content-start main">
+    <div class="image col-md-4 col-sm-12 d-flex">
+        <img src="{{ asset(Storage::url($product->image)) }}" alt="product img">
+        
+        @php($flag = true)
+        @foreach($collection as $el)
+            @if($el->product_id == $product->id)
+                @php($flag = false)
+                <div class="product_control_buttons d-flex flex-row justify-content-around align-items-center">
+                    <div class="plus_button" onclick="add_amount('<?= route('cart_add_amount', ['id' => $el->id]) ?>')"></div>
+                    <span id="<?= 'amount-' . $el->id ?>" class="d-flex justify-content-center align-items-center">{{ $el->amount }}</span>
+                    <div class="minus_button" onclick="rem_amount('<?= route('cart_rem_amount', ['id' => $el->id]) ?>')" ></div>
+                </div>
+            @endif
+        @endforeach
 
+        @if($flag)
+            <button id="<?= 'product-' . $product->id ?>" class="btn btn-primary" onclick="set_element('<?= route('cart_set_element', ['id' => $product->id]) ?>')">В корзину</button>
+        @endif
+        
+    </div>
+    <div class="info col-md-4 col-sm-12 d-flex flex-column">
+        <div class="">
+            <div class="info_el d-flex flex-column">
+                <span role="title">Name:</span>
+                <span role="name">{{ $product->name }}</span>
+            </div>
+            <div class="info_el d-flex flex-column">
+                <span role="title">Price:</span>
+                <span role="price">{{ "$".$product->price }}</span>
+            </div>
+        </div>
+        <div class="info_description d-flex flex-column">
+            <span role="title">Description</span>
+            <span><?= $product->description == '' ? '...' : $product->description ?></span>
+        </div>
+    </div>
+</div>
+@endsection
+
+@section('scripts')
+<script src="{{ asset('js/shopping_cart.js') }}"></script>
 @endsection

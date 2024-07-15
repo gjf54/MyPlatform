@@ -21,28 +21,55 @@ Profile
                         </div>
                 </div>
                 <div class="buttons">
-                        <div>
-                                <div class="dropdown">
-                                        <button class="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                          Edit Profile
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                          <li><a class="dropdown-item" href="{{ route('edit_data') }}">Edit Name/Surname</a></li>
-                                          <li><a class="dropdown-item" href="{{ route('edit_avatar') }}">Edit Avatar</a></li>
-                                          <li><a class="dropdown-item" href="{{ route('edit_password') }}">Edit password</a></li>
-                                          <li><a class="dropdown-item" href="{{ route('edit_email') }}">Edit E-Mail</a></li>
-                                        </ul>
-                                </div>
-                                @if($user->can('write_posts'))
-                                <div>
-                                        <a href="{{ route('dashboard') }}" class="btn btn-primary">DashBoard</a>
-                                </div>
-                                @endif
-                                <div>
-                                        <a href="{{ route('logout') }}" role="logout" class="btn btn-danger">Log out</a>
-                                </div>
+                         <div class="dropdown first">
+                                <button class="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Редактировать
+                                </button>
+                                <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{{ route('edit_data') }}">Инициалы</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('edit_avatar') }}">Аватар</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('edit_password') }}">Пароль</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('edit_email') }}">Электронная почта</a></li>
+                                </ul>
+                        </div>
+                        @if($user->can('write_posts'))
+                        <div class="second">
+                                <a href="{{ route('dashboard') }}" class="btn btn-primary">Панель</a>
+                        </div>
+                        @endif
+                        <div class="third">
+                                <a href="{{ route('logout') }}" role="logout" class="btn btn-danger">Выйти</a>
                         </div>
                 </div>
+        </div>
+</div>
+
+<div class="orders">
+        <span role="title col-sm-12">Ваши заказы</span>
+        <div class="row d-flex justify-content-around">
+        @if($orders->first())
+                @foreach($orders as $order)
+                        <div class="order col-md-4 col-sm-12">
+                                <span role="order_title"><?= '#' . $order->id ?></span>
+                                <div class="order_container">
+                                @foreach($order->order_products as $el)
+                                        @php($product = App\Models\Product::find(['id' => $el->product_id])->first())
+
+                                        <div class="order_product">
+                                                <div class="order_product_info">
+                                                        <img src="{{ asset(Storage::url($product->image)) }}" alt="Product img">
+                                                        <div>
+                                                                <span>{{ $product->name }}</span>
+                                                                <span>{{ $product->price }} x {{ $el->amount }} = <?= $product->price * $el->amount ?></span>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                @endforeach
+                                </div>
+                        </div>
+
+                @endforeach
+        @endif
         </div>
 </div>
 

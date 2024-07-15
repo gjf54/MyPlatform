@@ -5,20 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ShoppingCartCollection extends Model
+class OrderList extends Model
 {
     use HasFactory;
 
-    protected $table = 'products_in_cart';
+    protected $table = 'orders_list';
 
     protected $fillable = [
         'id',
-        'cart_id',
         'product_id',
         'amount',
+        'list_id',
     ];
 
-    public function cart(){
-        return $this->belongsTo(ShoppingCart::class, 'cart_id', 'id');
+    public function parent_note(){
+        return $this->belongsTo(Order::class, 'list_id', 'id');
     }
 }
