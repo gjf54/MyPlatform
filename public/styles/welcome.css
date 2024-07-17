@@ -37,7 +37,7 @@
 }
 
 .header div span[role="text"] {
-    max-width: 40%;
+    width: 40%;
     color: #bbb;
     align-self: center;
 }
@@ -98,7 +98,7 @@
 
 .figure {
     position: relative;
-    max-width: 40%;
+    /* max-width: 40%; */
     height: auto;
     display: flex;
     flex-direction: column;
@@ -151,5 +151,19 @@
     .figures {
         height: auto;
         flex-direction: column;
+    }
+
+    .description ul {
+        max-width: 90%;
+    }
+}
+
+@media screen and (max-width: 476px) {
+    .header_text {
+        width: 90%;
+    }
+
+    .header div span[role="text"] {
+        width:90%;
     }
 }
