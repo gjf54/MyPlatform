@@ -96,7 +96,7 @@ class EditProfileController extends Controller {
 
     public function fresh_avatar(Request $request){
         Validator::make($request->all(), [
-            'avatar' => 'required|image|max:2048|',
+            'avatar' => 'required|image',
         ])->validate();
         
         $auth_user = auth()->user();
