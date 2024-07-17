@@ -193,3 +193,6 @@ Route::group(['middleware' => ['auth', 'role:admin|manager|super_admin|writer'],
     });
 });
 
+
+Route::get('/linkstorage', function () { $targetFolder = base_path().'/storage/app/public'; $linkFolder = $_SERVER['DOCUMENT_ROOT'].'/storage'; symlink($targetFolder, $linkFolder); });
+
