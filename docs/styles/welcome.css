@@ -166,4 +166,8 @@
     .header div span[role="text"] {
         width:90%;
     }
+
+    .description {
+        width: 98%;
+    }
 }
