@@ -36,6 +36,10 @@
 }
 
 .product_control_buttons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
     background-color: #EEE;
     border-radius: 20px;
     margin-top: 10px;

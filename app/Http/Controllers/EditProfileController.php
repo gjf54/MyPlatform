@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 
 class EditProfileController extends Controller {
     protected $default_avatar = 'default.jpg';
-    protected $default_avatar_path = 'public/imgs/users_avatars/';
+    protected $default_avatar_path = '/public/imgs/users_avatars';
 
     public function fresh_data(Request $request) {
         Validator::make($request->all(), [
@@ -106,10 +106,10 @@ class EditProfileController extends Controller {
             Storage::disk('local')->delete($user->image);
         }
 
-        $path = Storage::disk('local')->put($this->default_avatar_path, $request->avatar);
+        $file = Storage::disk('local')->put($this->default_avatar_path, $request->avatar);
         
 
-        $user->image = $path;
+        $user->image = basename($file);
         $user->save();
 
         return back()->with('message', 'successfull update');

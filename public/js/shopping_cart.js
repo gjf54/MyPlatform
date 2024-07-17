@@ -8,7 +8,7 @@ function add_amount(url) {
         type: 'POST',
         success: function(data) {
             let element = JSON.parse(data)
-            let amount_field = $('#amount-' + element.id)
+            let amount_field = $('#amount-' + element.product_id)
             let product_amount = $('#price-product-' + element.id + ' span[role="product_amount"]')
             let price_result = $('#price-product-' + element.id + ' span[role="price_result"]')
             let real_price = $('#price-product-' + element.id + ' span[role="price_real"]')
@@ -33,7 +33,7 @@ function rem_amount(url) {
                 return
             }
             let element = JSON.parse(data)
-            let amount_field = $('#amount-' + element.id)
+            let amount_field = $('#amount-' + element.product_id)
             let product_amount = $('#price-product-' + element.id + '>span[role="product_amount"]')
             let price_result = $('#price-product-' + element.id + '>span[role="price_result"]')
             let real_price = $('#price-product-' + element.id + '>span[role="price_real"]')
@@ -62,6 +62,10 @@ function rem_element(url) {
 
             if(products.length == 0) {
                 button.remove()
+                let orders = $('.products')
+                let empty = $('.empty_products')
+                orders.addClass('void_products')
+                empty.css('display', 'flex')
             }
         },
         error: function (data) {
@@ -76,8 +80,12 @@ function set_element(url) {
         type: 'POST',
         success: function (data) {
             let response = JSON.parse(data)
-            let btn = $('#product-' + response.id)
-            btn.attr('disabled', '')
+            let btn = $('#product-' + response.id_prod)
+            let controllers = $('#control-' + response.id_prod)
+            let succes_field = $('#success-' + response.id_prod)
+
+            btn.css('display', 'none')
+            controllers.css('display', 'flex')
         },
         error: function (data) {
             console.log('Add product to cart error - data was not synchronized')
@@ -88,9 +96,13 @@ function set_element(url) {
 function confirm_order(){
     let black_block = $('.black_block')
     let confirm_window = $('.confirmation_window')
+    let products = $('.products')
+    const y = (document.documentElement.scrollHeight / 2) + 'px'
 
-    black_block.css('display', 'block')
+    products.css('opacity', '0.2')
+    console.log(y)
     confirm_window.css('display', 'flex')
+    confirm_window.css('margin-top', y)
 
     let confirm_button = $('#confirm_button')
     let unconfirm_button = $('#unconfirm_button')
@@ -112,7 +124,7 @@ function confirm_order(){
     })
 
     unconfirm_button.click(function (e) { 
-        black_block.css('display', 'none')
+        products.css('opacity', '1')
         confirm_window.css('display', 'none')
     });
 }

@@ -39,8 +39,14 @@ class CatalogController extends Controller
     public function display_product_view($id_category, $id_product){
         $product = Product::find(['id' => $id_product])->first();
         $category = Category::find(['id' => $id_category])->first();
-        $cart = auth()->user()->shopping_cart;
-        $collection = $cart->products_collection;
+        $user = auth()->user();
+        $cart = [];
+        $collection = [];
+
+        if($user) {
+            $cart = auth()->user()->shopping_cart;
+            $collection = $cart->products_collection;
+        }
         return view('catalog.product_view', [
             'product' => $product,
             'category' => $category,

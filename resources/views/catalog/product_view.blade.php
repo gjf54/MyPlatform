@@ -20,11 +20,16 @@
                 @php($flag = false)
                 <div class="product_control_buttons d-flex flex-row justify-content-around align-items-center">
                     <div class="plus_button" onclick="add_amount('<?= route('cart_add_amount', ['id' => $el->id]) ?>')"></div>
-                    <span id="<?= 'amount-' . $el->id ?>" class="d-flex justify-content-center align-items-center">{{ $el->amount }}</span>
+                    <span id="<?= 'amount-' . $product->id ?>" class="d-flex justify-content-center align-items-center">{{ $el->amount }}</span>
                     <div class="minus_button" onclick="rem_amount('<?= route('cart_rem_amount', ['id' => $el->id]) ?>')" ></div>
                 </div>
             @endif
         @endforeach
+
+        @if(auth()->user() == null)
+            @php($flag = false)
+            <a href="{{ route('profile') }}" class="btn btn-primary">В корзину</a>
+        @endif
 
         @if($flag)
             <button id="<?= 'product-' . $product->id ?>" class="btn btn-primary" onclick="set_element('<?= route('cart_set_element', ['id' => $product->id]) ?>')">В корзину</button>

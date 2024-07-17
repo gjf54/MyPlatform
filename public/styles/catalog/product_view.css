@@ -22,7 +22,7 @@
     border-radius: 20px;
 }
 
-.image button {
+.image button, .image a {
     position: absolute !important;
     margin-top: auto;
     width: 85%;
@@ -52,6 +52,10 @@
 }
 
 .product_control_buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
     background-color: #EEE;
     border-radius: 20px;
     position: absolute !important;

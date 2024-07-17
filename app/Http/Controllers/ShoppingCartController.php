@@ -24,9 +24,8 @@ class ShoppingCartController extends Controller
         ]);
     }
 
-    public function add_amount($id) 
-    {
-        $element = ShoppingCartCollection::find($id);
+    public function add_amount($id) {
+        $element = ShoppingCartCollection::where(['cart_id' => auth()->user()->shopping_cart->id, 'product_id' => $id])->first();
         $element->amount += 1;
         $element->save();
 
@@ -34,7 +33,7 @@ class ShoppingCartController extends Controller
     }
 
     public function remove_amount($id) {
-        $element = ShoppingCartCollection::find($id);
+        $element = ShoppingCartCollection::where(['cart_id' => auth()->user()->shopping_cart->id, 'product_id' => $id])->first();
         
         if($element->amount < 2) {
             return 0;
@@ -70,8 +69,8 @@ class ShoppingCartController extends Controller
 
         if(Product::find($id)->first()){
             $data = ['cart_id' => $cart->id,'product_id' => $id, 'amount' => 1];
-            ShoppingCartCollection::create($data);
-            return json_encode(['status' => 'ok', 'id' => $id]);
+            $note = ShoppingCartCollection::create($data);
+            return json_encode(['status' => 'ok', 'id_prod' => $id, 'id_el' => $note->id]);
         }
         return 0;       
     }

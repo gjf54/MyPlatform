@@ -16,8 +16,9 @@
 
         <?php 
             $curr_name = $product->name;
-            if (strlen($curr_name) > 20) {
-                $curr_name = str_split($curr_name, 17);
+            $max_size = 20;
+            if (strlen($curr_name) > $max_size) {
+                $curr_name = str_split($curr_name, $max_size - 3);
                 echo '<span role="product_name">' . $curr_name[0] . '...' .'</span>';
             } else {
                 echo '<span role="product_name">' . $product->name . '</span>';
@@ -28,18 +29,22 @@
         @foreach($cart as $el)
             @if($el->product_id == $product->id)
                 @php($flag = false)
-                <div class="product_control_buttons d-flex flex-row justify-content-around align-items-center">
-                    <div class="plus_button" onclick="add_amount('<?= route('cart_add_amount', ['id' => $el->id]) ?>')"></div>
-                    <span id="<?= 'amount-' . $el->id ?>" class="d-flex justify-content-center align-items-center">{{ $el->amount }}</span>
-                    <div class="minus_button" onclick="rem_amount('<?= route('cart_rem_amount', ['id' => $el->id]) ?>')" ></div>
+                <div id="<?= 'control-' . $product->id ?>" class="product_control_buttons d-flex flex-row justify-content-around align-items-center">
+                    <div class="plus_button" onclick="add_amount('<?= route('cart_add_amount', ['id' => $product->id]) ?>')"></div>
+                    <span id="<?= 'amount-' . $product->id ?>" class="d-flex justify-content-center align-items-center">{{ $el->amount }}</span>
+                    <div class="minus_button" onclick="rem_amount('<?= route('cart_rem_amount', ['id' => $product->id]) ?>')" ></div>
                 </div>
-            @endif
+                @break
+            @endif 
         @endforeach
+        
         @if($flag and auth()->user())
+            <div id="<?= 'control-' . $product->id ?>" class="product_control_buttons" style="display:none !important;">
+                <div class="plus_button" onclick="add_amount('<?= route('cart_add_amount', ['id' => $product->id]) ?>')"></div>
+                <span id="<?= 'amount-' . $product->id ?>" class="d-flex justify-content-center align-items-center">1</span>
+                <div class="minus_button" onclick="rem_amount('<?= route('cart_rem_amount', ['id' => $product->id]) ?>')" ></div>
+            </div>
             <button id="<?= 'product-' . $product->id ?>" class="btn btn-primary" onclick="set_element('<?= route('cart_set_element', ['id' => $product->id]) ?>')">В корзину</button>
-        @endif
-        @if($flag == false)
-            
         @endif
         @if(empty(auth()->user()))
             <a href="{{ route('profile') }}" class="btn btn-primary">В корзину</a>

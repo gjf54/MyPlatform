@@ -5,10 +5,17 @@
 @endsection
 
 @section('title')
-Shopping Cart 
+Корзина
 @endsection
 
 @section('content')
+<div class="confirmation_window">
+        <span>Вы уверены в том, что хотите оставить заказ?</span>
+        <div>
+            <button id="unconfirm_button" class="btn btn-outline-danger">Нет</button>
+            <button id="confirm_button" class="btn btn-success">Да</a>
+        </div>
+    </div>
 <div class="products">
     @foreach($collection as $element)
     <?php $product = App\Models\Product::find($element->product_id) ?>
@@ -30,16 +37,23 @@ Shopping Cart
         </div>
     </div>
     @endforeach
-    <div class="confirmation_window">
-        <span>Вы уверены в том, что хотите оставить заказ?</span>
-        <div>
-            <button id="unconfirm_button" class="btn btn-outline-danger">Нет</button>
-            <button id="confirm_button" class="btn btn-success">Да</a>
-        </div>
+    <div class="empty_products" style="display: none;">
+            <img src="{{ asset('storage/imgs/ui/empty.png') }}" alt="">
+            <span>Здесь пока ничего нет</span>
     </div>
     @if($collection->first())
         <button id="order_button" class="btn btn-success" onclick="confirm_order()">Подтвердить заказ</a>
+    @else 
+        <script>
+            window.onload = () => {  
+                let orders = $('.products')
+                let empty = $('.empty_products')
+                orders.addClass('void_products')
+                empty.css('display', 'flex')
+            }
+        </script>
     @endif
+
 </div>
 
 @endsection
