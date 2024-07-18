@@ -18,7 +18,7 @@
     <form action="<?= $status == 'create' ? route('dashboard_send_created_category') : route('dashboard_save_edited_category', ['id' => $category->id]) ?>" method="POST">
         @csrf
         <div class="mb-3 d-flex flex-column">
-            <label for="name" class="form-label">Name of category</label>
+            <label for="name" class="form-label">Название категории</label>
             <input type="text" class="form-control" name="name" value="<?= $status == 'edit' ? $category->name : '' ?>">
         </div>
         @foreach($errors->all() as $error)
@@ -33,9 +33,9 @@
         @endif
         <button type="submit" class="btn btn-primary">
             @if($status == 'create')
-                Create
+                Создать
             @else
-                Save changes
+                Сохранить
             @endif
         </button>
     </form>

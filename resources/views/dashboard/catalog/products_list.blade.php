@@ -9,7 +9,7 @@ Products list
 @endsection
 
 @section('content')
-<a href="{{ route('dashboard_catalog') }}" id="return_to_categories" class="btn btn-outline-secondary">Return to categories</a>
+<a href="{{ route('dashboard_catalog') }}" id="return_to_categories" class="btn btn-outline-secondary">К категориям</a>
 @foreach($errors->all() as $error)
         <div class="alert alert-danger">
             {{ $error }}
@@ -22,17 +22,26 @@ Products list
 @endif
 <div class="products row g-4">
     <div class="add_product col-xl-4 col-md-6">
-        <a href="{{ route('dashboard_create_product', ['id' => $category->id]) }}">Add product</a>
+        <a href="{{ route('dashboard_create_product', ['id' => $category->id]) }}">Добавить продукт</a>
     </div>
     @foreach($products as $product)
         <div class="product col-xl-4 col-md-6">
             <div class="buttons">
-                <a href="<?= route('dashboard_edit_product', ['id_category' => $category->id, 'id_product' => $product->id]) ?>" class="btn btn-primary">Edit</a>
-                <a href="{{ route('dashboard_product_delete', ['id_category' => $category->id, 'id_product' => $product->id]) }}" class="btn btn-danger">Delete</a>
+                <a href="<?= route('dashboard_edit_product', ['id_category' => $category->id, 'id_product' => $product->id]) ?>" class="btn btn-primary">Ред.</a>
+                <a href="{{ route('dashboard_product_delete', ['id_category' => $category->id, 'id_product' => $product->id]) }}" class="btn btn-danger">Удалить</a>
             </div>
             <a href="{{ route('product_view', ['id_category' => $category->id, 'id_product' => $product->id]) }}">
                 <img src="{{ asset(Storage::url($product->image)) }}" alt="product img">
-                <span role="name">{{ $product->name }}</span>
+                <?php 
+                    $curr_name = $product->name;
+                    $max_size = 26;
+                    if (strlen($curr_name) > $max_size) {
+                        $curr_name = str_split($curr_name, $max_size - 3);
+                        echo '<span role="name">' . $curr_name[0] . '...' .'</span>';
+                    } else {
+                        echo '<span role="name">' . $product->name . '</span>';
+                    }
+                ?>
                 <span role="price">{{ "$".$product->price }}</span>
             </a>
         </div>

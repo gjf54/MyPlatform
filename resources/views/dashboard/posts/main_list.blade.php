@@ -9,11 +9,11 @@ Writers Posts
 @endsection()
 
 @section('content')
-<a href="{{ route('dashboard') }}" class="btn btn-outline-secondary" id="return_to_dashboard">Return to dashboard</a>
+<a href="{{ route('dashboard') }}" class="btn btn-outline-secondary" id="return_to_dashboard">К панели</a>
 <div class="posts row g-5">
     <div class="add_post col-xl-5 col-md-12">
         <a href="{{ route('dashboard_create_post') }}">
-            <span>Create new post...</span>
+            <span>Создать новый пост...</span>
         </a>
     </div>
     @foreach($posts as $post)

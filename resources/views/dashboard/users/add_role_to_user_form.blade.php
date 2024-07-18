@@ -14,7 +14,7 @@ Add role to user
     <form action="{{ route('dashboard_set_role_to_user', ['role' => $role]) }}" method="POST">
         @csrf
         <div class="mb-3 d-flex flex-column">
-            <label for="login" class="form-label">Enter login of user</label>
+            <label for="login" class="form-label">Введите логин пользователя (без '@')</label>
             <input type="text" name="login" class="form-control typeahead" data-provide="typeahead">
         </div>
         @if($errors->any())
@@ -29,7 +29,7 @@ Add role to user
                 {{ session('message') }}
             </div>
         @endif
-        <button type="submit" class="btn btn-outline-success">Grant role</button>
+        <button type="submit" class="btn btn-outline-success">Выдать роль</button>
     </form>
 </div>
 @endsection

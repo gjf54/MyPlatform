@@ -9,7 +9,7 @@ Users
 @endsection
 
 @section('content')
-<a href="{{ route('dashboard') }}" class="btn btn-outline-secondary" id="return_to_dashboard_button">Return to dashboard</a>
+<a href="{{ route('dashboard') }}" class="btn btn-outline-secondary" id="return_to_dashboard_button">К панели</a>
 
 @if(session()->has('message'))
 <div class="alert alert-success">
@@ -28,7 +28,7 @@ Users
 <div class="users_list">
     <div class="users_group">
         <div class="header_field">
-            <span role="group_title">Super-admin</span>
+            <span role="group_title">Супер-администратор</span>
         </div>
         @foreach($super_admins as $super_admin)
             <div class="user_field">
@@ -40,11 +40,11 @@ Users
     </div>
     <div class="users_group">
         <div class="header_field">
-            <span role="group_title">Admins</span>
+            <span role="group_title">Администраторы</span>
             @if($user->hasRole('admin') and !($user->hasRole('super_admin')))
-                <a href="{{ route('dashboard_grant_role_to_user', ['role' => 'admin']) }}" class="btn btn-primary disabled" role="button" aria-disabled="true">Add</a>
+                <a href="{{ route('dashboard_grant_role_to_user', ['role' => 'admin']) }}" class="btn btn-primary disabled" role="button" aria-disabled="true">Добавить</a>
             @else
-            <a href="{{ route('dashboard_grant_role_to_user', ['role' => 'admin']) }}" class="btn btn-primary" role="button">Add</a>
+            <a href="{{ route('dashboard_grant_role_to_user', ['role' => 'admin']) }}" class="btn btn-primary" role="button">Добавить</a>
             @endif
         </div>
         @foreach($admins as $admin)
@@ -54,7 +54,7 @@ Users
                 </span>
                 @if($user->hasRole('super_admin'))
                     <div class="user_control_buttons">
-                        <a href="{{ route('dashboard_remove_user_role', ['id' => $admin->id, 'role' => 'admin']) }}" class="btn btn-danger">Remove user role</a>
+                        <a href="{{ route('dashboard_remove_user_role', ['id' => $admin->id, 'role' => 'admin']) }}" class="btn btn-danger">Убрать роль</a>
                     </div>
                 @endif
             </div>
@@ -62,8 +62,8 @@ Users
     </div>
     <div class="users_group">
         <div class="header_field">
-            <span role="group_title">Managers</span>
-            <a href="{{ route('dashboard_grant_role_to_user', ['role' => 'manager']) }}" class="btn btn-primary">Add</a>
+            <span role="group_title">Менеджеры</span>
+            <a href="{{ route('dashboard_grant_role_to_user', ['role' => 'manager']) }}" class="btn btn-primary">Добавить</a>
         </div>
         @foreach($managers as $manager)
             <div class="user_field">
@@ -71,15 +71,15 @@ Users
                     <?= '@'.$manager->login ?>
                 </span>
                 <div class="user_control_buttons">
-                    <a href="{{ route('dashboard_remove_user_role', ['id' => $manager->id, 'role' => 'manager']) }}" class="btn btn-danger">Remove user role</a>
+                    <a href="{{ route('dashboard_remove_user_role', ['id' => $manager->id, 'role' => 'manager']) }}" class="btn btn-danger">Убрать роль</a>
                 </div>
             </div>
         @endforeach
     </div>
     <div class="users_group">
         <div class="header_field">
-            <span role="group_title">Writers</span>
-            <a href="{{ route('dashboard_grant_role_to_user', ['role' => 'writer']) }}" class="btn btn-primary">Add</a>
+            <span role="group_title">Редакторы</span>
+            <a href="{{ route('dashboard_grant_role_to_user', ['role' => 'writer']) }}" class="btn btn-primary">Добавить</a>
         </div>
         @foreach($writers as $writer)
             <div class="user_field">
@@ -87,7 +87,7 @@ Users
                 <?= '@'.$writer->login ?>
                 </span>
                 <div class="user_control_buttons">
-                    <a href="{{ route('dashboard_remove_user_role', ['id' => $writer->id, 'role' => 'writer']) }}" class="btn btn-danger">Remove user role</a>
+                    <a href="{{ route('dashboard_remove_user_role', ['id' => $writer->id, 'role' => 'writer']) }}" class="btn btn-danger">Убрать роль</a>
                 </div>
             </div>
         @endforeach()

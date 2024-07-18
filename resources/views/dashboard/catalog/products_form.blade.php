@@ -15,20 +15,20 @@
 @endsection
 
 @section('content')
-<a href="{{ route('dashboard_category_contains', ['id' => $category->id]) }}" class="btn btn-outline-secondary" id="return_to_products_list" >Return back</a>
+<a href="{{ route('dashboard_category_contains', ['id' => $category->id]) }}" class="btn btn-outline-secondary" id="return_to_products_list" >К продуктам</a>
 <div class="form">
     <form action="<?= $status == 'create' ? route('dashboard_send_created_product', ['id' => $category->id]) : route('dashboard_save_edited_product', ['id_category' => $category->id, 'id_product' => $product->id]) ?>" method="POST">
         @csrf
         <div class="mb-3 d-flex flex-column mb-3">
-            <label for="name" class="form-label">Name of product</label>
+            <label for="name" class="form-label">Название продукта</label>
             <input type="text" name="name" id="name" class="form-control" value="<?= $status == 'edit' ? $product->name : '' ?>">
         </div>
         <div class="mb-3 d-flex flex-column mb-3">
-            <label for="price" class="form-label">Price</label>
+            <label for="price" class="form-label">Цена</label>
             <input type="text" name="price" id="price" class="form-control" value="<?= $status == 'edit' ? $product->price : '' ?>">
         </div>
         <div class="mb-3 d-flex flex-column mb-3">
-            <label for="description" class="form-label">Description (optional)</label>
+            <label for="description" class="form-label">Описание (опционально)</label>
             <textarea type="text" name="description" id="description" class="form-control"><?= $status == 'edit' ? $product->description : '' ?></textarea>
         </div>
         @foreach($errors->all() as $error)
@@ -43,9 +43,9 @@
         @endif
         <button type="submit" class="btn btn-primary">
             @if($status == 'create')
-                Create product
+                Создать
             @else
-                Save changes
+                Сохранить изменения
             @endif
         </button>
     </form>

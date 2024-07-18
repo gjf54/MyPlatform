@@ -15,7 +15,7 @@ Edit post
 @endsection
 
 @section('content')
-<a href="{{ route('dashboard_writers_posts') }}" class="btn btn-outline-secondary" id="return_to_posts_button">Return to posts</a>
+<a href="{{ route('dashboard_writers_posts') }}" class="btn btn-outline-secondary" id="return_to_posts_button">Назад</a>
 <div class="form">
     <form action="<?php 
         if($status == 'create'){ 
@@ -26,7 +26,7 @@ Edit post
         ?>" method="POST">
         @csrf
         <div class="mb-3 d-flex flex-column">
-            <label for="title" class="form-label">Enter title of post</label>
+            <label for="title" class="form-label">Название объявления</label>
             <input type="text" name="title" id="title" class="form-control" 
                 <?php 
                     if($status == 'edit') {
@@ -43,7 +43,7 @@ Edit post
                     }
                 ?>
             </textarea>
-            <label for="text_of_post" class="form-label">Enter text of post</label>
+            <label for="text_of_post" class="form-label">Текст объявления</label>
         </div>
         @foreach($errors->all() as $error)
             <div class="alert alert-danger" role="alert">
@@ -58,11 +58,11 @@ Edit post
         @endif
         <button type="submit" class="btn btn-primary">
             @if($status == 'create')
-            Create 
+            Создать 
             @endif
     
             @if($status == 'edit')
-            Save changes
+            Сохранить изменения
             @endif      
         </button>
     </form>

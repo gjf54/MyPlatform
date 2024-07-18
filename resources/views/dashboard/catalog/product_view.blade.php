@@ -9,26 +9,28 @@
 @endsection
 
 @section('content')
+<a href="{{ route('dashboard_catalog') }}" class="btn btn-outline-secondary" id="return_back">Назад</a>
 <div class="row d-flex justify-content-start main">
     <div class="image col-md-4 col-sm-12 d-flex">
         <img src="{{ asset(Storage::url($product->image)) }}" alt="product img">
-        <a href="#" class="btn btn-primary disabled">Add to cart</a>
+        <a href="#" class="btn btn-primary disabled">В корзину</a>
     </div>
     <div class="info col-md-4 col-sm-12 d-flex flex-column">
         <div class="">
             <div class="info_el d-flex flex-column">
-                <span role="title">Name:</span>
+                <span role="title">Название:</span>
                 <span role="name">{{ $product->name }}</span>
             </div>
             <div class="info_el d-flex flex-column">
-                <span role="title">Price:</span>
+                <span role="title">Цена:</span>
                 <span role="price">{{ "$".$product->price }}</span>
             </div>
         </div>
         <div class="info_description d-flex flex-column">
-            <span role="title">Description</span>
+            <span role="title">Описание</span>
             <span><?= $product->description == '' ? '...' : $product->description ?></span>
         </div>
+        <a href="{{ route('dashboard_edit_product', ['id_category' => $product->category_id, 'id_product' => $product->id]) }}" class="btn btn-primary info_edit">Редактировать</a>
     </div>
 </div>
 @endsection
