@@ -56,8 +56,8 @@ class RoleAndPermissionSeeder extends Seeder
             'login' => 'admin1',
             'name' => 'Just',
             'surname' => 'Admin',
-            'email' => 'trrt100fff4@gmaissl.com',
-            'password' => Hash::make('Zzxcasd1!'),
+            'email' => 'anymail@anydomain.any',
+            'password' => Hash::make('demonstration2024'),
         ]);
         $admin->assignRole($admin_role);
 
