@@ -33,7 +33,7 @@
             <div class="plus_button" onclick="add_amount('<?= route('cart_add_amount', ['id' => $product->id]) ?>')"></div>
             <span id="<?= 'amount-' . $product->id ?>" class="d-flex justify-content-center align-items-center">{{ $element->amount }}</span>
             <div class="minus_button" onclick="rem_amount('<?= route('cart_rem_amount', ['id' => $product->id]) ?>')" ></div>
-            <div class="remove_button" onclick="rem_element('<?= route('cart_rem_element', ['id' => $product->id]) ?>')"></div>
+            <div class="remove_button" onclick="rem_element('<?= route('cart_rem_element', ['id' => $element->id]) ?>')"></div>
         </div>
     </div>
     @endforeach
